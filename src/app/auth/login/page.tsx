@@ -27,8 +27,25 @@ export default function LoginPage() {
     }
 
     if (data.session) {
-      const { data: userData } = await supabase.from('users').select('role').eq('id', data.session.user.id).single()
-      router.push(userData?.role === 'admin' ? '/admin' : '/dashboard')
+      try {
+        // Attempt to check if user is admin, but don't let it hang the whole login
+        const { data: userData, error: profileError } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', data.session.user.id)
+          .single()
+
+        if (profileError || !userData) {
+          console.warn('Profile not found yet, redirecting to dashboard anyway.')
+          router.push('/dashboard')
+          return
+        }
+
+        router.push(userData.role === 'admin' ? '/admin' : '/dashboard')
+      } catch (err) {
+        // Fallback redirect if anything goes wrong during role check
+        router.push('/dashboard')
+      }
     }
   }
 
