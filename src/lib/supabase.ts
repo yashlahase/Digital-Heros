@@ -9,10 +9,21 @@ export const supabase = typeof window !== 'undefined'
   ? createClientComponentClient() 
   : (supabaseUrl && supabaseAnonKey 
       ? createClient(supabaseUrl, supabaseAnonKey) 
-      : { 
-          auth: { getSession: async () => ({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) },
-          from: () => ({ select: () => ({ eq: () => ({ single: () => ({ data: null, error: null }) }), order: () => ({ data: [], error: null }) }) })
-        } as any)
+      : new Proxy({}, {
+          get: () => {
+            const handler = () => ({ 
+              auth: { getSession: async () => ({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) },
+              from: () => handler(),
+              select: () => handler(),
+              eq: () => handler(),
+              order: () => handler(),
+              single: () => Promise.resolve({ data: null, error: null }),
+              then: (cb: any) => Promise.resolve({ data: [], error: null }).then(cb),
+              catch: () => Promise.resolve({ data: [], error: null }),
+            })
+            return handler()
+          }
+        }) as any)
 
 // Server-side client with service role (bypasses RLS)
 export const supabaseAdmin = 
