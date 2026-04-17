@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Heart, Globe, ArrowRight, ShieldCheck, Users, Target, CheckCircle2, ChevronLeft } from 'lucide-react'
@@ -9,10 +9,6 @@ import { Heart, Globe, ArrowRight, ShieldCheck, Users, Target, CheckCircle2, Che
 export const revalidate = 3600 // Revalidate every hour
 
 async function getCharity(id: string) {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
   const { data } = await supabase
     .from('charities')
     .select('*')

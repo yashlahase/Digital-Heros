@@ -9,10 +9,13 @@ export const supabase = typeof window !== 'undefined'
   ? createClientComponentClient() 
   : (supabaseUrl && supabaseAnonKey 
       ? createClient(supabaseUrl, supabaseAnonKey) 
-      : null as any)
+      : { 
+          auth: { getSession: async () => ({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) },
+          from: () => ({ select: () => ({ eq: () => ({ single: () => ({ data: null, error: null }) }), order: () => ({ data: [], error: null }) }) })
+        } as any)
 
 // Server-side client with service role (bypasses RLS)
 export const supabaseAdmin = 
   typeof window === 'undefined' && process.env.SUPABASE_SERVICE_ROLE_KEY && supabaseUrl
     ? createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY)
-    : null as any
+    : (supabase ? supabase : null as any)
