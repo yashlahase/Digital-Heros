@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+:root {
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  
+  --background: 146 71% 4%;
+  --foreground: 44 32% 95%;
+  --border: 44 32% 80% / 0.1;
+}
+
+@layer base {
+  * {
+    border-color: rgba(237, 229, 224, 0.1);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-forest-900 text-cream-100 antialiased;
+    font-family: var(--font-inter);
+    background-color: #0D2818;
+  }
+
+  ::selection {
+    background-color: rgba(198, 241, 53, 0.3);
+    color: #F8F5EE;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0D2818; }
+  ::-webkit-scrollbar-thumb { background: #C6F135; border-radius: 3px; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-lime-500 text-forest-900 font-semibold rounded-2xl
+           hover:bg-lime-400 active:scale-95 transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-transparent border border-cream-200/20 text-cream-100 font-semibold rounded-2xl
+           hover:bg-cream-100/5 active:scale-95 transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-cream-200/70 font-medium rounded-xl
+           hover:text-cream-100 hover:bg-white/5 transition-all duration-200 cursor-pointer;
+  }
+
+  .card {
+    @apply bg-forest-800/60 border border-cream-200/10 rounded-3xl p-6 backdrop-blur-sm;
+  }
+
+  .card-hover {
+    @apply card hover:border-lime-500/30 hover:bg-forest-800/80 transition-all duration-300;
+  }
+
+  .glass {
+    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 bg-forest-800/80 border border-cream-200/15 rounded-xl text-cream-100
+           placeholder:text-cream-200/30 focus:outline-none focus:border-lime-500/60 focus:ring-2 focus:ring-lime-500/20
+           transition-all duration-200;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-cream-200/70 mb-2;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-active {
+    @apply badge bg-lime-500/15 text-lime-500 border border-lime-500/30;
+  }
+
+  .badge-inactive {
+    @apply badge bg-red-500/15 text-red-400 border border-red-500/30;
+  }
+
+  .badge-pending {
+    @apply badge bg-amber-500/15 text-amber-400 border border-amber-500/30;
+  }
+
+  .stat-card {
+    @apply card flex flex-col gap-2;
+  }
+
+  .section-tag {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-lime-500/10 text-lime-500 text-sm font-semibold rounded-full border border-lime-500/20;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-lime-500 to-lime-400 bg-clip-text text-transparent;
+  }
+
+  .divider {
+    @apply border-t border-cream-200/10;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+}
