@@ -7,7 +7,8 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ['stripe'],
+    // Trigger fresh deployment
+    serverComponentsExternalPackages: ['razorpay'],
   },
 }
 
